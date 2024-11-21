@@ -1,10 +1,27 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppService } from './services/app.service';
+import { TmdbService } from './services/tmdb.service';
+import { MovieEntity } from './entities';
 
 @Module({
-  imports: [],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mariadb',
+      host: 'localhost',
+      port: 3306,
+      username: 'abdallahbedir',
+      password: 'password',
+      database: 'movies',
+      synchronize: false,
+      autoLoadEntities: true,
+      logging: true,
+    }),
+    TypeOrmModule.forFeature([MovieEntity]),
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TmdbService],
 })
 export class AppModule {}

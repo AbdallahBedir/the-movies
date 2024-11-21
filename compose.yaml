@@ -1,0 +1,15 @@
+services:
+  # web:
+  #   build: .
+  #   ports:
+  #     - '8080:8080'
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_USER: abdallahbedir
+      MARIADB_PASSWORD: password
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: movies
+    ports:
+      - '3306:3306'
