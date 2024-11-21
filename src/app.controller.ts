@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Param } from '@nestjs/common';
 
 // services
 import { AppService } from './services/app.service';
@@ -23,6 +23,14 @@ export class AppController {
     @Query() searchMoviesParams: SearchMoviesParams,
   ): Promise<MovieEntity> {
     return this.appService.searchMovie(searchMoviesParams);
+  }
+
+  @Post('movie/:movie_id/rating')
+  rateMovie(
+    @Param('movie_id') movie_id: string,
+    @Body('value') value: number,
+  ): Promise<MovieEntity> {
+    return this.appService.rateMovie(movie_id, value);
   }
 
   @Get()
