@@ -5,7 +5,11 @@ import { Repository, Like, FindManyOptions } from 'typeorm';
 //services
 import { TmdbService } from '../services';
 //entities
-import { MovieEntity, MovieRatingEntity } from '../entities';
+import {
+  MovieEntity,
+  MovieRatingEntity,
+  FavoriteMovieEntity,
+} from '../entities';
 // dto
 import { ListMoviesParams, SearchMoviesParams } from '../dto';
 
@@ -19,6 +23,8 @@ export class AppService implements OnModuleInit {
     private readonly movieRepo: Repository<MovieEntity>,
     @InjectRepository(MovieRatingEntity)
     private readonly movieRatingRepo: Repository<MovieRatingEntity>,
+    @InjectRepository(FavoriteMovieEntity)
+    private readonly favoriteMovieRepo: Repository<FavoriteMovieEntity>,
   ) {}
 
   async onModuleInit() {
@@ -105,6 +111,17 @@ export class AppService implements OnModuleInit {
         client_id: 1,
         movie_id,
         value,
+      });
+    } catch (err) {
+      return err;
+    }
+  }
+
+  async addMovieToFavorite(movie_id: string) {
+    try {
+      return await this.favoriteMovieRepo.save({
+        client_id: 1,
+        movie_id,
       });
     } catch (err) {
       return err;
