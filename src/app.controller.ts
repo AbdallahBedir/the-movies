@@ -33,6 +33,13 @@ export class AppController {
     return this.appService.rateMovie(movie_id, value);
   }
 
+  @Post('movie/:movie_id/favorite')
+  addMovieToFavorite(
+    @Param('movie_id') movie_id: string,
+  ): Promise<MovieEntity> {
+    return this.appService.addMovieToFavorite(movie_id);
+  }
+
   @Get()
   getHello(): string {
     return this.appService.getHello();

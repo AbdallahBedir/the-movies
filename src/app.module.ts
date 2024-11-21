@@ -4,7 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './services/app.service';
 import { TmdbService } from './services/tmdb.service';
-import { MovieEntity, MovieRatingEntity } from './entities';
+import {
+  MovieEntity,
+  MovieRatingEntity,
+  FavoriteMovieEntity,
+} from './entities';
 
 @Module({
   imports: [
@@ -19,7 +23,11 @@ import { MovieEntity, MovieRatingEntity } from './entities';
       autoLoadEntities: true,
       logging: true,
     }),
-    TypeOrmModule.forFeature([MovieEntity, MovieRatingEntity]),
+    TypeOrmModule.forFeature([
+      MovieEntity,
+      MovieRatingEntity,
+      FavoriteMovieEntity,
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService, TmdbService],
