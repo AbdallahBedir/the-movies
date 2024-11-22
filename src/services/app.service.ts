@@ -70,6 +70,7 @@ export class AppService implements OnModuleInit {
         where: {
           genre_ids: Like(`%${genre_id}%`),
         },
+        cache: 60000,
       };
     }
 
@@ -95,6 +96,7 @@ export class AppService implements OnModuleInit {
           { title: Like(`%${query}%`) },
           { overview: Like(`%${query}%`) },
         ],
+        cache: 60000,
       };
     }
 
