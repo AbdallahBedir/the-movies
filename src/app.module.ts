@@ -14,7 +14,7 @@ import {
   imports: [
     TypeOrmModule.forRoot({
       type: 'mariadb',
-      host: 'localhost',
+      host: 'db',
       port: 3306,
       username: 'abdallahbedir',
       password: 'password',

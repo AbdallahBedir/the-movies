@@ -5,14 +5,14 @@ config();
 
 export const typeOrmOptions: DataSourceOptions = {
   type: 'mariadb',
-  host: 'localhost',
+  host: 'db',
   port: 3306,
   username: 'abdallahbedir',
   password: 'password',
   database: 'movies',
   synchronize: false,
-  migrations: [__dirname + '/migrations/*.ts'],
-  entities: ['./**/*.entity.ts'],
+  migrations: [__dirname + '/migrations/*.{js,ts}'],
+  entities: [__dirname + '/entities/*.{js,ts}'],
   dateStrings: true,
 };
 
