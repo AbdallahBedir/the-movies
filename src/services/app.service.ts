@@ -46,14 +46,8 @@ export class AppService implements OnModuleInit {
           page: index + 1,
         });
 
-        const movies = response?.results.map((movie) => ({
-          ...movie,
-          // save genre_ids as comma-separated in our DB as mysql doesn't support arrays
-          genre_ids: movie.genre_ids.join(','),
-        }));
-
         try {
-          await this.movieRepo.save(movies);
+          await this.movieRepo.save(response?.results);
         } catch (error) {
           console.error(error);
         }
