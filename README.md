@@ -4,7 +4,7 @@ Simple app that populate top rated movies from [TMDB API](https://developer.them
 
 ## Project setup
 
-1- create _.env_ file with values like the following:
+1- craete _.env_ file with values like the following:
 
 ```
 MARIADB_HOST=db  // `db` name is required to match service name in compose file
@@ -12,7 +12,7 @@ MARIADB_PORT=3306
 MARIADB_USER=abdallahbedir
 MARIADB_PASSWORD=password
 MARIADB_DATABASE=movies
-TMDB_ACCESS_TOKEN=
+TMDB_ACCESS_TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTQwNmI0MTU5NTJjZTNkYjI1N2UzNWVjODhmMDgyOSIsIm5iZiI6MTczMjM2MzUyMC42OTY1NTgsInN1YiI6IjY3M2NmYTg4MzU1NTQxNzkxM2IxNjNiZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.uaZkACpg1LTBnfUbhW9n-ALFnDVHNiDJaFWwtq7ztM0
 REDIS_HOST=redis-12905.c250.eu-central-1-1.ec2.redns.redis-cloud.com
 REDIS_PORT=12905
 REDIS_PASSWORD=QsvtdHIlrOFdwhZZVkjX5IzgA6zWrSd6
@@ -26,6 +26,13 @@ $ docker compose up
 
 compose file runs mariadb DB first then build the image for NestJs app that connects to DB, run migrations to create tables, then listen for incoming requests
 
+## API endpoints
+
+- GET /movies
+- GET /search
+- POST /movie/:movie_id/rating
+- POST /movie/:movie_id/favorite
+
 ## Project Structure
 
 - controllers
@@ -38,6 +45,8 @@ compose file runs mariadb DB first then build the image for NestJs app that conn
   - classes that maps to a database tables written with typeorm
 - migrations
   - sql queries to update a database schema and apply new changes written with typeorm
+- subscribers
+- classes that can listen to specific entity events, afterLoad, beforeInsert, ...etc
 - utils
   - reusable functions that contains repeated logic, like **request()** to make api requests
 
