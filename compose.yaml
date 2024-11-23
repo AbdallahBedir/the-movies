@@ -12,10 +12,10 @@ services:
     image: mariadb
     restart: always
     environment:
-      MARIADB_USER: abdallahbedir
-      MARIADB_PASSWORD: password
-      MARIADB_ROOT_PASSWORD: password
-      MARIADB_DATABASE: movies
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
     volumes:
       - mysql:/var/lib/mysql
     ports:
