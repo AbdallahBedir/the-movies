@@ -31,6 +31,8 @@ export class AppService implements OnModuleInit {
   async onModuleInit() {
     const data = await this.listMovies();
 
+    console.log(`current data length`, data.length);
+
     // if data already populated in our DB, exit;
     if (data?.length > 0) return;
 
