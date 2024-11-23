@@ -4,7 +4,7 @@ Simple app that populate top rated movies from [TMDB API](https://developer.them
 
 ## Project setup
 
-1- craete _.env_ file with values like the following:
+1- create _.env_ file with values like the following:
 
 ```
 MARIADB_HOST=db  // `db` name is required to match service name in compose file
