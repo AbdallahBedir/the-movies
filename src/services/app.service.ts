@@ -31,10 +31,12 @@ export class AppService implements OnModuleInit {
   async onModuleInit() {
     const data = await this.listMovies();
 
-    console.log(`current data length`, data.length);
+    const dataLength = data?.length;
+
+    console.log(`current data length`, dataLength);
 
     // if data already populated in our DB, exit;
-    if (data?.length > 0) return;
+    if (dataLength > 0) return;
 
     // our DB is empty, populate 10 pages of top rated movies from TMDB into our DB (`tbl_movie` table)
     const promises = Array(10)
