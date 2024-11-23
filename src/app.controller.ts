@@ -3,7 +3,11 @@ import { Controller, Get, Query, Post, Body, Param } from '@nestjs/common';
 // services
 import { AppService } from './services/app.service';
 // entities
-import { MovieEntity } from './entities';
+import {
+  MovieEntity,
+  MovieRatingEntity,
+  FavoriteMovieEntity,
+} from './entities';
 // dto
 import { ListMoviesParams, SearchMoviesParams } from './dto';
 
@@ -14,14 +18,14 @@ export class AppController {
   @Get('movies')
   listMovies(
     @Query() listMoviesParams: ListMoviesParams,
-  ): Promise<MovieEntity> {
+  ): Promise<MovieEntity[]> {
     return this.appService.listMovies(listMoviesParams);
   }
 
   @Get('search')
   searchMovie(
     @Query() searchMoviesParams: SearchMoviesParams,
-  ): Promise<MovieEntity> {
+  ): Promise<MovieEntity[]> {
     return this.appService.searchMovie(searchMoviesParams);
   }
 
@@ -29,19 +33,14 @@ export class AppController {
   rateMovie(
     @Param('movie_id') movie_id: string,
     @Body('value') value: number,
-  ): Promise<MovieEntity> {
+  ): Promise<MovieRatingEntity> {
     return this.appService.rateMovie(movie_id, value);
   }
 
   @Post('movie/:movie_id/favorite')
   addMovieToFavorite(
     @Param('movie_id') movie_id: string,
-  ): Promise<MovieEntity> {
+  ): Promise<FavoriteMovieEntity> {
     return this.appService.addMovieToFavorite(movie_id);
-  }
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
   }
 }

@@ -56,7 +56,9 @@ export class AppService implements OnModuleInit {
     await Promise.all(promises);
   }
 
-  async listMovies(listMoviesParams: ListMoviesParams = {}): Promise<any> {
+  async listMovies(
+    listMoviesParams: ListMoviesParams = {},
+  ): Promise<MovieEntity[]> {
     const { genre_id, page = 1 } = listMoviesParams;
 
     let options: FindManyOptions<MovieEntity> = {
@@ -81,7 +83,9 @@ export class AppService implements OnModuleInit {
     }
   }
 
-  async searchMovie(searchMoviesParams: SearchMoviesParams) {
+  async searchMovie(
+    searchMoviesParams: SearchMoviesParams,
+  ): Promise<MovieEntity[]> {
     const { query, page = 1 } = searchMoviesParams;
 
     let options: FindManyOptions<MovieEntity> = {
@@ -107,7 +111,7 @@ export class AppService implements OnModuleInit {
     }
   }
 
-  async rateMovie(movie_id: string, value: number) {
+  async rateMovie(movie_id: string, value: number): Promise<MovieRatingEntity> {
     try {
       return await this.movieRatingRepo.save({
         client_id: 1,
@@ -119,7 +123,7 @@ export class AppService implements OnModuleInit {
     }
   }
 
-  async addMovieToFavorite(movie_id: string) {
+  async addMovieToFavorite(movie_id: string): Promise<FavoriteMovieEntity> {
     try {
       return await this.favoriteMovieRepo.save({
         client_id: 1,
@@ -128,9 +132,5 @@ export class AppService implements OnModuleInit {
     } catch (err) {
       return err;
     }
-  }
-
-  getHello(): string {
-    return 'Hello World!';
   }
 }
