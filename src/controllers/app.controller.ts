@@ -1,15 +1,15 @@
 import { Controller, Get, Query, Post, Body, Param } from '@nestjs/common';
 
 // services
-import { AppService } from './services/app.service';
+import { AppService } from '../services/app.service';
 // entities
 import {
   MovieEntity,
   MovieRatingEntity,
   FavoriteMovieEntity,
-} from './entities';
+} from '../entities';
 // dto
-import { ListMoviesParams, SearchMoviesParams } from './dto';
+import { ListMoviesParams, SearchMoviesParams } from '../dto';
 
 @Controller()
 export class AppController {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 // config
-import { request } from '../config/request';
+import { request } from '../utils';
 // dto
 import { ListMoviesParams } from '../dto';
 

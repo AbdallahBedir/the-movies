@@ -3,10 +3,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 // controllers
 import { AppController } from './app.controller';
 // services
-import { AppService } from './services/app.service';
-import { TmdbService } from './services/tmdb.service';
+import { AppService } from '../services/app.service';
+import { TmdbService } from '../services/tmdb.service';
 // entities
-import { MovieEntity } from './entities';
+import { MovieEntity } from '../entities';
 
 const movies: MovieEntity[] = [
   {
