@@ -26,6 +26,13 @@ $ docker compose up
 
 compose file runs mariadb DB first then build the image for NestJs app that connects to DB, run migrations to create tables, then listen for incoming requests
 
+## API endpoints
+
+- GET /movies
+- GET /search
+- POST /movie/:movie_id/rating
+- POST /movie/:movie_id/favorite
+
 ## Project Structure
 
 - controllers
@@ -38,6 +45,8 @@ compose file runs mariadb DB first then build the image for NestJs app that conn
   - classes that maps to a database tables written with typeorm
 - migrations
   - sql queries to update a database schema and apply new changes written with typeorm
+- subscribers
+- classes that can listen to specific entity events, afterLoad, beforeInsert, ...etc
 - utils
   - reusable functions that contains repeated logic, like **request()** to make api requests
 

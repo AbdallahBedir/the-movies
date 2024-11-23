@@ -24,6 +24,7 @@ import {
       username: process.env.MARIADB_USER,
       password: process.env.MARIADB_PASSWORD,
       database: process.env.MARIADB_DATABASE,
+      subscribers: ['**/subscribers/*.subscriber.js'],
       synchronize: false,
       autoLoadEntities: true,
       logging: true,
