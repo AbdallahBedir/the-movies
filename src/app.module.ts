@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppController } from './app.controller';
+// controllers
+import { AppController } from './controllers';
+// services
 import { AppService } from './services/app.service';
 import { TmdbService } from './services/tmdb.service';
+// entities
 import {
   MovieEntity,
   MovieRatingEntity,

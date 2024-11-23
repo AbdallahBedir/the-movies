@@ -14,7 +14,7 @@ import {
 import { ListMoviesParams, SearchMoviesParams } from '../dto';
 
 export const pageLimit = 20;
-export const cacheTTL = 60000;
+export const cacheTTL = 60000; // // 1 minute
 
 @Injectable()
 export class AppService implements OnModuleInit {
