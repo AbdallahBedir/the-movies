@@ -13,7 +13,8 @@ import {
 // dto
 import { ListMoviesParams, SearchMoviesParams } from '../dto';
 
-const pageLimit = 20;
+export const pageLimit = 20;
+export const cacheTTL = 60000;
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -37,17 +38,18 @@ export class AppService implements OnModuleInit {
     const promises = Array(10)
       .fill(0)
       .map(async (_, index) => {
-        const movies = await this.tmdbService.listTopRatedMovies({
+        const response = await this.tmdbService.listTopRatedMovies({
           page: index + 1,
         });
-        movies.results = movies?.results.map((movie) => ({
+
+        const movies = response?.results.map((movie) => ({
           ...movie,
           // save genre_ids as comma-separated in our DB as mysql doesn't support arrays
           genre_ids: movie.genre_ids.join(','),
         }));
 
         try {
-          await this.movieRepo.save(movies.results);
+          await this.movieRepo.save(movies);
         } catch (error) {
           console.error(error);
         }
@@ -64,6 +66,7 @@ export class AppService implements OnModuleInit {
     let options: FindManyOptions<MovieEntity> = {
       take: pageLimit,
       skip: pageLimit * (page - 1),
+      cache: cacheTTL,
     };
 
     if (genre_id) {
@@ -72,7 +75,6 @@ export class AppService implements OnModuleInit {
         where: {
           genre_ids: Like(`%${genre_id}%`),
         },
-        cache: 60000,
       };
     }
 
@@ -91,6 +93,7 @@ export class AppService implements OnModuleInit {
     let options: FindManyOptions<MovieEntity> = {
       take: pageLimit,
       skip: pageLimit * (page - 1),
+      cache: cacheTTL,
     };
 
     if (query) {
@@ -100,7 +103,6 @@ export class AppService implements OnModuleInit {
           { title: Like(`%${query}%`) },
           { overview: Like(`%${query}%`) },
         ],
-        cache: 60000,
       };
     }
 
