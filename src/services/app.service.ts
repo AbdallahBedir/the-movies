@@ -13,7 +13,8 @@ import {
 // dto
 import { ListMoviesParams, SearchMoviesParams } from '../dto';
 
-const pageLimit = 20;
+export const pageLimit = 20;
+export const cacheTTL = 60000;
 
 @Injectable()
 export class AppService implements OnModuleInit {
@@ -30,24 +31,29 @@ export class AppService implements OnModuleInit {
   async onModuleInit() {
     const data = await this.listMovies();
 
+    const dataLength = data?.length;
+
+    console.log(`current data length`, dataLength);
+
     // if data already populated in our DB, exit;
-    if (data?.length > 0) return;
+    if (dataLength > 0) return;
 
     // our DB is empty, populate 10 pages of top rated movies from TMDB into our DB (`tbl_movie` table)
     const promises = Array(10)
       .fill(0)
       .map(async (_, index) => {
-        const movies = await this.tmdbService.listTopRatedMovies({
+        const response = await this.tmdbService.listTopRatedMovies({
           page: index + 1,
         });
-        movies.results = movies?.results.map((movie) => ({
+
+        const movies = response?.results.map((movie) => ({
           ...movie,
           // save genre_ids as comma-separated in our DB as mysql doesn't support arrays
           genre_ids: movie.genre_ids.join(','),
         }));
 
         try {
-          await this.movieRepo.save(movies.results);
+          await this.movieRepo.save(movies);
         } catch (error) {
           console.error(error);
         }
@@ -56,12 +62,15 @@ export class AppService implements OnModuleInit {
     await Promise.all(promises);
   }
 
-  async listMovies(listMoviesParams: ListMoviesParams = {}): Promise<any> {
+  async listMovies(
+    listMoviesParams: ListMoviesParams = {},
+  ): Promise<MovieEntity[]> {
     const { genre_id, page = 1 } = listMoviesParams;
 
     let options: FindManyOptions<MovieEntity> = {
       take: pageLimit,
       skip: pageLimit * (page - 1),
+      cache: cacheTTL,
     };
 
     if (genre_id) {
@@ -70,7 +79,6 @@ export class AppService implements OnModuleInit {
         where: {
           genre_ids: Like(`%${genre_id}%`),
         },
-        cache: 60000,
       };
     }
 
@@ -81,12 +89,15 @@ export class AppService implements OnModuleInit {
     }
   }
 
-  async searchMovie(searchMoviesParams: SearchMoviesParams) {
+  async searchMovie(
+    searchMoviesParams: SearchMoviesParams,
+  ): Promise<MovieEntity[]> {
     const { query, page = 1 } = searchMoviesParams;
 
     let options: FindManyOptions<MovieEntity> = {
       take: pageLimit,
       skip: pageLimit * (page - 1),
+      cache: cacheTTL,
     };
 
     if (query) {
@@ -96,7 +107,6 @@ export class AppService implements OnModuleInit {
           { title: Like(`%${query}%`) },
           { overview: Like(`%${query}%`) },
         ],
-        cache: 60000,
       };
     }
 
@@ -107,7 +117,7 @@ export class AppService implements OnModuleInit {
     }
   }
 
-  async rateMovie(movie_id: string, value: number) {
+  async rateMovie(movie_id: string, value: number): Promise<MovieRatingEntity> {
     try {
       return await this.movieRatingRepo.save({
         client_id: 1,
@@ -119,7 +129,7 @@ export class AppService implements OnModuleInit {
     }
   }
 
-  async addMovieToFavorite(movie_id: string) {
+  async addMovieToFavorite(movie_id: string): Promise<FavoriteMovieEntity> {
     try {
       return await this.favoriteMovieRepo.save({
         client_id: 1,
@@ -128,9 +138,5 @@ export class AppService implements OnModuleInit {
     } catch (err) {
       return err;
     }
-  }
-
-  getHello(): string {
-    return 'Hello World!';
   }
 }

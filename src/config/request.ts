@@ -6,8 +6,7 @@ export const request = async (path, params, method = 'GET') => {
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNTQwNmI0MTU5NTJjZTNkYjI1N2UzNWVjODhmMDgyOSIsIm5iZiI6MTczMjEzMzg5NS42Njk4NTA4LCJzdWIiOiI2NzNjZmE4ODM1NTU0MTc5MTNiMTYzYmYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.ND4MEyIVXKdwhifbOGt_nOflkune7cdxERyjJvq4kjA',
+      Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
     },
   };
   if ('GET' === method) {
