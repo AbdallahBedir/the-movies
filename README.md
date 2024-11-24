@@ -46,7 +46,7 @@ compose file runs mariadb DB first then build the image for NestJs app that conn
 - migrations
   - sql queries to update a database schema and apply new changes written with typeorm
 - subscribers
-- classes that can listen to specific entity events, afterLoad, beforeInsert, ...etc
+  - classes that can listen to specific entity events, afterLoad, beforeInsert, ...etc
 - utils
   - reusable functions that contains repeated logic, like **request()** to make api requests
 
